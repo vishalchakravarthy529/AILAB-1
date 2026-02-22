@@ -1,0 +1,36 @@
+rooms = {
+    "A": "Dirty",
+    "B": "Dirty"
+}
+
+vacuum_position = "A"
+
+def clean(room):
+    if rooms[room] == "Dirty":
+        print("Room", room, "is dirty. Cleaning...")
+        rooms[room] = "Clean"
+    else:
+        print("Room", room, "is already clean.")
+
+def move():
+    global vacuum_position
+    if vacuum_position == "A":
+        vacuum_position = "B"
+    else:
+        vacuum_position = "A"
+    print("Vacuum moved to Room", vacuum_position)
+
+def run_vacuum():
+    print("Initial status:", rooms)
+    print("Starting position:", vacuum_position)
+    print()
+
+    clean(vacuum_position)
+    move()
+    clean(vacuum_position)
+
+    print()
+    print("Final status:", rooms)
+    print("All rooms are clean.")
+
+run_vacuum()

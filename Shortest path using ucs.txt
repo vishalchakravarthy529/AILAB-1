@@ -1,0 +1,59 @@
+import heapq
+
+graph = {
+    "A": [("B", 2), ("C", 5)],
+    "B": [("D", 1), ("E", 3)],
+    "C": [("F", 2)],
+    "D": [],
+    "E": [("F", 1)],
+    "F": []
+}
+
+def uniform_cost_search(start, goal):
+    queue = [(0, start)]
+    visited = {}
+    parent = {start: None}
+
+    while queue:
+        cost, node = heapq.heappop(queue)
+
+        if node in visited and visited[node] <= cost:
+            continue
+
+        visited[node] = cost
+
+        if node == goal:
+            break
+
+        for neighbour, weight in graph[node]:
+            new_cost = cost + weight
+            heapq.heappush(queue, (new_cost, neighbour))
+
+            if neighbour not in parent or new_cost < visited.get(neighbour, float("inf")):
+                parent[neighbour] = node
+
+    path = []
+    current = goal
+
+    if goal not in visited:
+        return None, None
+
+    while current is not None:
+        path.append(current)
+        current = parent[current]
+
+    path.reverse()
+
+    return path, visited[goal]
+
+
+start = "A"
+goal = "F"
+
+path, cost = uniform_cost_search(start, goal)
+
+if path:
+    print("Shortest Path:", " -> ".join(path))
+    print("Total Cost:", cost)
+else:
+    print("No path found")

@@ -1,0 +1,57 @@
+import random
+
+rooms = {
+    "A": random.choice(["Clean", "Dirty"]),
+    "B": random.choice(["Clean", "Dirty"]),
+    "C": random.choice(["Clean", "Dirty"]),
+    "D": random.choice(["Clean", "Dirty"])
+}
+
+vacuum_position = random.choice(list(rooms.keys()))
+performance = 0
+
+def display_status():
+    print("Current Room Status:")
+    for room in rooms:
+        print("Room", room, ":", rooms[room])
+    print()
+
+def clean(room):
+    global performance
+    if rooms[room] == "Dirty":
+        print("Room", room, "is dirty. Cleaning...")
+        rooms[room] = "Clean"
+        performance += 10
+    else:
+        print("Room", room, "is already clean.")
+        performance -= 1
+
+def move_to_next(current):
+    keys = list(rooms.keys())
+    index = keys.index(current)
+    next_index = (index + 1) % len(keys)
+    return keys[next_index]
+
+def all_clean():
+    return all(status == "Clean" for status in rooms.values())
+
+def run_vacuum():
+    global vacuum_position
+    print("Initial Environment")
+    display_status()
+    print("Starting at Room", vacuum_position)
+    print("-----------------------------------")
+
+    while not all_clean():
+        clean(vacuum_position)
+        vacuum_position = move_to_next(vacuum_position)
+        print("Moving to Room", vacuum_position)
+        print()
+
+    print("-----------------------------------")
+    print("Final Environment")
+    display_status()
+    print("Performance Score:", performance)
+    print("Cleaning Completed Successfully!")
+
+run_vacuum()
