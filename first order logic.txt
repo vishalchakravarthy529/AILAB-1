@@ -1,0 +1,11 @@
+from pyDatalog import pyDatalog
+
+pyDatalog.create_terms('has_leg, likes, brother_of, X, Y, Z')
+
++has_leg('John')
++likes('Raju', 'fish')
++brother_of('Raju', 'Rani')
+
+print(has_leg(X))
+print(likes('Raju', Y))
+print(brother_of('Raju', Z))
