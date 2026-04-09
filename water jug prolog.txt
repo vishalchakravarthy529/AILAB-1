@@ -1,0 +1,24 @@
+capacity((12,8,5,3)).
+goal((6,6,0,0)).
+
+move((A,B,C,D),(A1,B1,C,D)) :-
+    A > 0,
+    Space is 8 - B,
+    Transfer is min(A, Space),
+    A1 is A - Transfer,
+    B1 is B + Transfer.
+
+move((A,B,C,D),(0,B,C,D)) :-
+    A > 0.
+
+move((A,B,C,D),(12,B,C,D)) :-
+    A < 12.
+
+solve(State, State, [State]).
+solve(State, Goal, [State|Path]) :-
+    move(State, Next),
+    solve(Next, Goal, Path).
+
+start :-
+    solve((12,0,0,0), (6,6,0,0), Path),
+    write(Path).
