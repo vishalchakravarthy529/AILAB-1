@@ -1,0 +1,11 @@
+from pyDatalog import pyDatalog
+
+pyDatalog.create_terms('parent, ancestor, X, Y, Z')
+
++ parent('alex', 'sharon')
++ parent('sharon', 'Charlie')
+
+ancestor(X, Y) <= parent(X, Y)
+ancestor(X, Y) <= (parent(X, Z) & ancestor(Z, Y))
+
+print(ancestor(X, 'Charlie'))

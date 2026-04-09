@@ -1,0 +1,8 @@
+from pyDatalog import pyDatalog
+
+pyDatalog.create_terms('employee, X, Y')
+
++ employee('Alice', 50000)
++ employee('Bob', 60000)
+
+print(employee(X, Y))

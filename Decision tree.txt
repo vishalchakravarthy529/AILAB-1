@@ -1,0 +1,44 @@
+# Install first
+!pip install dtreeviz
+
+import numpy as np
+import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import dtreeviz
+
+data = load_iris()
+X = data.data
+y = data.target
+
+species_names = ['setosa', 'versicolor', 'virginica']
+y_labels = [species_names[label] for label in y]
+
+df = pd.DataFrame(data.data, columns=data.feature_names)
+df['target'] = y_labels
+
+# Binary classification
+y_binary = (y == 2).astype(int)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y_binary, test_size=0.3, random_state=42)
+
+clf = DecisionTreeClassifier()
+clf.fit(X_train, y_train)
+
+y_pred = clf.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+
+m = dtreeviz.model(
+    clf,
+    X_train,
+    y_train,
+    target_name='target',
+    feature_names=data.feature_names,
+    class_names=['virginica', 'versicolor']
+)
+
+m.view()
